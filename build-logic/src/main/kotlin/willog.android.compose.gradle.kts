@@ -1,0 +1,3 @@
+import extenstion.configureComposeAndroid
+
+configureComposeAndroid()
