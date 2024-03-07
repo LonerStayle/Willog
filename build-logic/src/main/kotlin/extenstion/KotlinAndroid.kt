@@ -30,24 +30,12 @@ internal fun Project.configureKotlinAndroid() {
         }
     }
     configureKotlin()
-
-//    val libs = extensions.libs
-//    dependencies {
-//        add("coreLibraryDesugaring", libs.findLibrary("android.desugarJdkLibs").get())
-//    }
-
 }
 
 internal fun Project.configureKotlin() {
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
             jvmTarget = JavaVersion.VERSION_17.toString()
-
-//            val warningsAsErrors:String? by project
-//            allWarningsAsErrors = warningsAsErrors.toBoolean()
-//            freeCompilerArgs = freeCompilerArgs + listOf(
-//                "-opt-in=kotlin.RequiresOptIn"
-//            )
         }
     }
 }

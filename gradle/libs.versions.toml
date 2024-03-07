@@ -27,6 +27,7 @@ androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 appcompat = "1.6.1"
 material = "1.11.0"
+jetbrainsKotlinJvm = "1.9.0"
 
 [libraries]
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -85,3 +86,4 @@ android-application = { id = "com.android.application", version.ref = "androidGr
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }

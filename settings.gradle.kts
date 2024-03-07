@@ -16,10 +16,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "willog"
 include(":app")
-include(":data")
-include(":domain")
-include(":ui")
-include(":ui:core")
-include(":ui:core:disiginsystem")
-include(":ui:feature")
-include(":ui:core:core-ui")
+include(":core:data")
+include(":core:domain")
+include(":core:designsystem")
+include(":core:model")
