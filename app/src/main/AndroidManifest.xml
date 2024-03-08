@@ -14,18 +14,6 @@
         android:theme="@style/Theme.Willog"
         tools:targetApi="33">
 
-        <activity
-            android:name=".feature.main.MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Willog">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
     </application>
 
 </manifest>

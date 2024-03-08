@@ -9,4 +9,10 @@ android {
 
 dependencies {
     implementation(libs.bundles.network)
+
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    implementation(libs.room.paging)
+    kapt(libs.room.compiler)
+
 }
