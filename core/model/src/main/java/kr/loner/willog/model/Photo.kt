@@ -1,0 +1,12 @@
+package kr.loner.willog.model
+
+data class Photo(
+    val id: String,
+    val urls:Urls,
+    val user:User
+){
+    data class Urls(
+        val full: String,
+        val thumb: String,
+    )
+}

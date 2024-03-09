@@ -7,8 +7,8 @@ android {
 }
 
 dependencies {
+
     implementation(libs.android.core.ktx)
-    implementation(libs.appcompat)
-    implementation(libs.material)
     implementation(libs.activity.compose)
+
 }
