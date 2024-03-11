@@ -1,10 +1,13 @@
 package kr.loner.willog.data.repository
 
+import android.util.Log
 import androidx.paging.Pager
+
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kr.loner.willog.data.local.dao.BookmarkedPhotoDao
 import kr.loner.willog.data.local.entity.BookmarkedPhotoEntity
@@ -12,7 +15,6 @@ import kr.loner.willog.data.mapper.toDto
 import kr.loner.willog.data.mapper.toModel
 import kr.loner.willog.data.paging.PhotoPagingSource
 import kr.loner.willog.data.remote.api.PhotoApi
-import kr.loner.willog.data.remote.model.PhotoResponse
 import kr.loner.willog.model.BookmarkedPhoto
 import kr.loner.willog.model.Photo
 import javax.inject.Inject
@@ -23,27 +25,39 @@ internal class PhotoRepositoryImpl @Inject constructor(
 ) : PhotoRepository {
 
     override suspend fun bookmarkToggle(bookmarkedPhoto: BookmarkedPhoto) {
-        bookmarkedPhotoDao.insert(bookmarkedPhoto.toDto())
+        if(bookmarkedPhotoDao.getBookmarkedPhoto(bookmarkedPhoto.id) != null){
+            bookmarkedPhotoDao.deleteById(bookmarkedPhoto.id)
+        }else{
+            bookmarkedPhotoDao.insert(bookmarkedPhoto.toDto())
+        }
     }
 
     override suspend fun getPhoto(id: String): Photo {
         return photoApi.getPhoto(id).toModel()
     }
 
-    override suspend fun searchPhotos(query: String, prevQuery: String?): Flow<PagingData<Photo>> {
+    override suspend fun searchPhotos(query: String): Flow<PagingData<Photo>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PhotoPagingSource.DEFAULT_PER_PAGE,
+                prefetchDistance = 12,
+
             ),
             pagingSourceFactory = {
                 PhotoPagingSource(
                     photoApi = photoApi,
                     query = query,
-                    prevQuery = prevQuery
                 )
             }
         ).flow.map { paging ->
-            paging.map(PhotoResponse::toModel)
+            val bookmarkedPhotos = getBookmarkPhotos().first()
+            paging.map { photo ->
+                photo.toModel(
+                    isBookmark = bookmarkedPhotos.find { bookmark ->
+                        photo.id == bookmark.id
+                    } != null
+                )
+            }
         }
     }
 
@@ -53,7 +67,5 @@ internal class PhotoRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteBookmarkPhoto(id: String) {
-        bookmarkedPhotoDao.deleteById(id)
-    }
+
 }

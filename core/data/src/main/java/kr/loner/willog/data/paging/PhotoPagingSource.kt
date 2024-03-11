@@ -8,13 +8,11 @@ import javax.inject.Inject
 
 internal data class PhotoPagingSource @Inject constructor(
     private val photoApi: PhotoApi,
-    private val query: String,
-    private val prevQuery: String?
+    private val query: String
 ) : PagingSource<Int, PhotoResponse>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PhotoResponse> {
         val page = params.key ?: 1
-
         return try {
             val apiSearchResult = photoApi.searchPhotos(
                 query = query,
@@ -24,12 +22,8 @@ internal data class PhotoPagingSource @Inject constructor(
             val totalPage = apiSearchResult.totalPages
             LoadResult.Page(
                 data = apiSearchResult.results,
-                prevKey = if (page == 1) null else page,
-                nextKey = if (totalPage <= page) {
-                    page + 1
-                } else {
-                    null
-                }
+                prevKey = if (page == 1) null else page - 1,
+                nextKey = if (totalPage >= page) page + 1 else null
             )
         } catch (e: Exception) {
             e.printStackTrace()
@@ -37,18 +31,14 @@ internal data class PhotoPagingSource @Inject constructor(
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, PhotoResponse>): Int? {
-        return if (prevQuery != query) {
-            1
-        } else {
-            state.anchorPosition?.let { anchorPosition ->
-                state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
-                    ?: state.closestPageToPosition(anchorPosition)?.prevKey?.minus(1)
-            }
-        }
+    override fun getRefreshKey(state: PagingState<Int, PhotoResponse>): Int {
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        } ?: 1
     }
 
     companion object {
-        const val DEFAULT_PER_PAGE = 100
+        const val DEFAULT_PER_PAGE = 40
     }
 }

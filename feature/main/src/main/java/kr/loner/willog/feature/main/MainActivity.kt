@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -29,21 +32,32 @@ class MainActivity : ComponentActivity() {
     private val refresh by lazy {
         findViewById<SwipeRefreshLayout>(R.id.refresh)
     }
-    private val button by lazy {
-        findViewById<Button>(R.id.button)
+    private val editText by lazy {
+        findViewById<EditText>(R.id.editText)
     }
     private val adapter by lazy{
-        Adapter()
+        Adapter{ photo ->
+            viewModel.bookmarkToggle(photo)
+        }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.test)
+        recyclerView.itemAnimator = null
         recyclerView.adapter = adapter
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.dlist.collectLatest {
+                viewModel.searchPhotos.collectLatest {
                     adapter.submitData(it)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.bookmarkedPhotos.collectLatest {
+                    adapter.refresh()
                 }
             }
         }
@@ -53,13 +67,13 @@ class MainActivity : ComponentActivity() {
             refresh.isRefreshing = false
         }
 
-        button.setOnClickListener {
-            viewModel.asd("b")
+        editText.addTextChangedListener {editable ->
+            viewModel.setQuery(editable?.toString()?:"")
         }
     }
 }
 
-class Adapter(): PagingDataAdapter<Photo, Adapter.ViewHolder>(
+class Adapter(private val bookmarkToggle:(Photo)->Unit): PagingDataAdapter<Photo, Adapter.ViewHolder>(
     object :DiffUtil.ItemCallback<Photo>(){
         override fun areItemsTheSame(oldItem: Photo, newItem: Photo): Boolean {
             return oldItem.id == newItem.id
@@ -76,13 +90,21 @@ class Adapter(): PagingDataAdapter<Photo, Adapter.ViewHolder>(
         private val textView by lazy {
             v.findViewById<TextView>(R.id.tv_name)
         }
+        private val imageView by lazy {
+            v.findViewById<ImageView>(R.id.imageView)
+        }
         fun bind(photo: Photo){
             textView.text = photo.id
+            imageView.isVisible = photo.isBookmark
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.test_item,parent,false))
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.test_item,parent,false)).apply {
+            itemView.setOnClickListener {
+                bookmarkToggle(getItem(bindingAdapterPosition)?:return@setOnClickListener)
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

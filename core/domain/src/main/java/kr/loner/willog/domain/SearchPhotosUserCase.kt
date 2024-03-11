@@ -7,12 +7,9 @@ import kr.loner.willog.model.Photo
 import javax.inject.Inject
 
 class SearchPhotosUserCase @Inject constructor(
-    private val photoRepository: PhotoRepository
+    private val photoRepository: PhotoRepository,
 ) {
-    suspend operator fun invoke(query: String, prevQuery: String?): Flow<PagingData<Photo>> =
-        photoRepository.searchPhotos(
-            query = query,
-            prevQuery = prevQuery
-        )
-
+    suspend operator fun invoke(query: String): Flow<PagingData<Photo>> {
+        return photoRepository.searchPhotos(query)
+    }
 }

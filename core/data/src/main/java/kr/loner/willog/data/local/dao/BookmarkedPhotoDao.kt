@@ -9,10 +9,13 @@ import kr.loner.willog.data.local.entity.BookmarkedPhotoEntity
 
 @Dao
 internal interface BookmarkedPhotoDao {
+    @Query("SELECT * FROM BookmarkedPhotoEntity WHERE id = :id")
+    suspend fun getBookmarkedPhoto(id:String): BookmarkedPhotoEntity?
+
     @Query("SELECT * from BookmarkedPhotoEntity")
     fun getBookmarkedPhotos(): Flow<List<BookmarkedPhotoEntity>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(bookmarkedPhotoEntity: BookmarkedPhotoEntity)
 
     @Query("DELETE FROM BookmarkedPhotoEntity WHERE id = :id")

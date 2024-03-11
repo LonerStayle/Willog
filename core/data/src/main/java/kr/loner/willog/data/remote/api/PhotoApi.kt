@@ -11,7 +11,7 @@ internal interface PhotoApi {
         @Query("id") id: String
     ): PhotoResponse
 
-    @GET("/search/photos")
+    @GET("/search/photos?order_by=latest")
     suspend fun searchPhotos(
         @Query("query") query: String,
         @Query("page") page: Int,
