@@ -25,10 +25,10 @@ internal data class PhotoPagingSource @Inject constructor(
             LoadResult.Page(
                 data = apiSearchResult.results,
                 prevKey = if (page == 1) null else page,
-                nextKey = if (totalPage >= page) {
-                    null
-                } else {
+                nextKey = if (totalPage <= page) {
                     page + 1
+                } else {
+                    null
                 }
             )
         } catch (e: Exception) {
@@ -39,7 +39,7 @@ internal data class PhotoPagingSource @Inject constructor(
 
     override fun getRefreshKey(state: PagingState<Int, PhotoResponse>): Int? {
         return if (prevQuery != query) {
-            null
+            1
         } else {
             state.anchorPosition?.let { anchorPosition ->
                 state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
