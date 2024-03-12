@@ -33,13 +33,8 @@ class MainViewModel @Inject constructor(
     private val bookmarkedToggleUseCase: BookmarkToggleUseCase
 ) : ViewModel() {
 
-
-    private val _errorFlow = MutableSharedFlow<Throwable>()
-    val errorFlow: SharedFlow<Throwable> get() = _errorFlow
-
     private val _queryFlow = MutableStateFlow("")
     private val _cacheValues = MutableStateFlow(PhotoListCacheValues())
-
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val searchPhotos: StateFlow<PagingData<Photo>> = _queryFlow
@@ -60,9 +55,6 @@ class MainViewModel @Inject constructor(
                 }
                 searchPhotos
             }
-        }.catch { e ->
-            e.printStackTrace()
-            _errorFlow.emit(e)
         }.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5_000),

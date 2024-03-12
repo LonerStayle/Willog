@@ -29,12 +29,15 @@ class MainActivity : ComponentActivity() {
     private val recyclerView by lazy {
         findViewById<RecyclerView>(R.id.recyclerView)
     }
+
     private val refresh by lazy {
         findViewById<SwipeRefreshLayout>(R.id.refresh)
     }
+
     private val editText by lazy {
         findViewById<EditText>(R.id.editText)
     }
+
     private val adapter by lazy{
         Adapter{ photo ->
             viewModel.bookmarkToggle(photo)

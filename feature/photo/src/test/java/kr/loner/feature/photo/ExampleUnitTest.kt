@@ -1,7 +1,8 @@
-package kr.loner.willog.designsystem
+package kr.loner.feature.photo
+
+import org.junit.Test
 
 import org.junit.Assert.*
-import org.junit.Test
 
 /**
  * Example local unit test, which will execute on the development machine (host).
