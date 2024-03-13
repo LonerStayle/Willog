@@ -44,7 +44,7 @@ internal fun PhotoDetailRoute(
     onChangeScreen(stringResource(id = R.string.photo_detail_title))
 
     PhotoDetailScreen(padding, photoDetailUiState) {
-        viewModel.bookmarkToggle()
+        viewModel.toggleBookmark()
     }
 
     LaunchedEffect(photoId) {

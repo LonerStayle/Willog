@@ -40,18 +40,22 @@ hiltNavigationCompose = "1.0.0"
 #Image#
 coil = "2.4.0"
 
-kotlinxDatetime = "0.2.1"
+#Paging3
+paging = "3.2.1"
 
 #Test
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
-paging = "3.2.1"
+mockk = "1.13.5"
+turbine = "1.0.0"
+
 
 
 [libraries]
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+
 
 #Android
 android-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -108,13 +112,13 @@ paging-compose= { group = "androidx.paging", name = "paging-compose", version.re
 #Image
 coil = {group = "io.coil-kt", name ="coil-compose",version.ref = "coil"}
 
-kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
-
 #Test
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
-
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 
 inject = "javax.inject:javax.inject:1"
 
@@ -135,5 +139,4 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization  = {id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin"}
 
-room = { id = "androidx.room", version.ref = "room" }
 

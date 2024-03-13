@@ -11,7 +11,7 @@ import kr.loner.willog.data.local.dao.BookmarkedPhotoDao
 import kr.loner.willog.data.local.entity.BookmarkedPhotoEntity
 import kr.loner.willog.data.mapper.toDto
 import kr.loner.willog.data.mapper.toModel
-import kr.loner.willog.data.paging.PhotoPagingSource
+import kr.loner.willog.data.paging.PhotoSearchPagingSource
 import kr.loner.willog.data.remote.api.PhotoApi
 import kr.loner.willog.model.Photo
 import javax.inject.Inject
@@ -20,6 +20,7 @@ internal class PhotoRepositoryImpl @Inject constructor(
     private val photoApi: PhotoApi,
     private val bookmarkedPhotoDao: BookmarkedPhotoDao,
 ) : PhotoRepository {
+
 
     override suspend fun bookmarkToggle(bookmarkedPhoto: Photo) {
         if (bookmarkedPhotoDao.getBookmarkedPhoto(bookmarkedPhoto.id) != null) {
@@ -39,11 +40,12 @@ internal class PhotoRepositoryImpl @Inject constructor(
     override suspend fun searchPhotos(query: String): Flow<PagingData<Photo>> {
         return Pager(
             config = PagingConfig(
-                pageSize = PhotoPagingSource.DEFAULT_PER_PAGE,
+                pageSize = PhotoSearchPagingSource.DEFAULT_PER_PAGE,
                 enablePlaceholders = false,
+                initialLoadSize = PhotoSearchPagingSource.DEFAULT_PER_PAGE,
             ),
             pagingSourceFactory = {
-                PhotoPagingSource(
+                PhotoSearchPagingSource(
                     photoApi = photoApi,
                     query = query,
                 )

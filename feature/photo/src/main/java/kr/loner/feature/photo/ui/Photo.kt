@@ -1,6 +1,7 @@
 package kr.loner.feature.photo.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,9 +11,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +25,10 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import kr.loner.feature.photo.R
 import kr.loner.willog.designsystem.component.NetworkImage
 import kr.loner.willog.model.Photo
@@ -29,42 +37,23 @@ import kr.loner.willog.model.User
 
 @Composable
 fun PhotoList(
-    padding: PaddingValues = PaddingValues(),
-    photos: LazyPagingItems<Photo>,
-    onPhotoClick: (Photo) -> Unit
-) {
-    LazyVerticalGrid(
-        modifier = Modifier.fillMaxSize(),
-        columns = GridCells.Fixed(4),
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
-        contentPadding = padding
-    ) {
-
-
-        items(photos.itemCount) { index ->
-            PhotoItem(
-                photos[index] ?: return@items,
-                onPhotoClick
-            )
-        }
-    }
-}
-
-@Composable
-fun PhotoList(
+    lazyGridState: LazyGridState = rememberLazyGridState(),
     padding: PaddingValues = PaddingValues(),
     photos: List<Photo>,
     onPhotoClick: (Photo) -> Unit
 ) {
     LazyVerticalGrid(
+        state = lazyGridState,
         modifier = Modifier.fillMaxSize(),
         columns = GridCells.Fixed(4),
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
         contentPadding = padding
     ) {
-        items(photos) { photo ->
+        items(
+            items = photos,
+            key = (Photo::id)
+        ) { photo ->
             PhotoItem(
                 photo,
                 onPhotoClick
@@ -135,7 +124,6 @@ fun PhotoListPreview() {
         testList.add(mockPhoto)
     }
     PhotoList(
-        PaddingValues(),
         photos = testList
     ) {
 

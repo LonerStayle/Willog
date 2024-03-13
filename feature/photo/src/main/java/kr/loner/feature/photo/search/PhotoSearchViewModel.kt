@@ -1,10 +1,12 @@
 package kr.loner.feature.photo.search
 
-import android.util.Log
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -14,8 +16,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import kr.loner.willog.domain.GetBookmarkedPhotosUseCase
 import kr.loner.willog.domain.SearchPhotosUserCase
 import kr.loner.willog.model.Photo
@@ -27,6 +31,12 @@ class PhotoSearchViewModel @Inject constructor(
     getBookmarkedPhotosUseCase: GetBookmarkedPhotosUseCase,
 ) : ViewModel() {
 
+    private val _scrollState = MutableStateFlow<LazyGridState?>(null)
+    val scrollState: StateFlow<LazyGridState?> = _scrollState
+
+    private val _photoSearchUiEffect = MutableStateFlow<PhotoSearchEffect>(PhotoSearchEffect.Ide)
+    val photoSearchUiEffect: StateFlow<PhotoSearchEffect> = _photoSearchUiEffect
+
     private val _queryFlow = MutableStateFlow("")
     private val _cacheValues = MutableStateFlow(PhotoSearchCacheValues())
 
@@ -36,7 +46,6 @@ class PhotoSearchViewModel @Inject constructor(
         .flatMapLatest { query ->
             val cacheValue = _cacheValues.value
             val searchPhotos = searchPhotosUserCase(query).cachedIn(viewModelScope)
-
             if (cacheValue.prevQuery == query) {
                 _cacheValues.update { it.copy(prevQuery = query) }
                 cacheValue.cacheSearchPhotos ?: emptyFlow()
@@ -55,14 +64,30 @@ class PhotoSearchViewModel @Inject constructor(
             PagingData.empty()
         )
 
+    private val bookmarkedPhotos = getBookmarkedPhotosUseCase()
+
+    init {
+        viewModelScope.launch {
+            bookmarkedPhotos.collect {
+                refresh()
+            }
+        }
+
+    }
 
     fun setQuery(query: String) {
-        Log.d("checkk", "aaaa")
         _queryFlow.value = query
     }
 
-    val bookmarkedPhotos = getBookmarkedPhotosUseCase()
+    private fun refresh() {
+        viewModelScope.launch {
+            _photoSearchUiEffect.value = PhotoSearchEffect.RefreshPaging
+        }
+    }
 
+    fun saveScrollState(scrollState: LazyGridState) {
+        _scrollState.value = scrollState
+    }
     data class PhotoSearchCacheValues(
         val prevQuery: String? = null,
         val cacheSearchPhotos: Flow<PagingData<Photo>>? = null,

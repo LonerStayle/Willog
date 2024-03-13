@@ -37,9 +37,6 @@ fun NavGraphBuilder.photoGraph(
     }
 }
 
-fun NavController.navigatePhotoSearch() {
-    navigate(PhotoRoute.Search.route)
-}
 
 fun NavController.navigatePhotoBookmark() {
     navigate(PhotoRoute.Bookmark.route)
