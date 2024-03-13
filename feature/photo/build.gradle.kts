@@ -8,7 +8,6 @@ android {
 
 dependencies {
 
-
     implementation(libs.paging.runtime.ktx)
     implementation(libs.paging.compose)
 }

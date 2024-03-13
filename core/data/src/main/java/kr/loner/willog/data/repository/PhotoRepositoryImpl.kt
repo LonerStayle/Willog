@@ -1,6 +1,5 @@
 package kr.loner.willog.data.repository
 
-import android.util.Log
 import androidx.paging.Pager
 
 import androidx.paging.PagingConfig
@@ -15,7 +14,7 @@ import kr.loner.willog.data.mapper.toDto
 import kr.loner.willog.data.mapper.toModel
 import kr.loner.willog.data.paging.PhotoPagingSource
 import kr.loner.willog.data.remote.api.PhotoApi
-import kr.loner.willog.model.BookmarkedPhoto
+import kr.loner.willog.data.remote.model.PhotoResponse
 import kr.loner.willog.model.Photo
 import javax.inject.Inject
 
@@ -24,24 +23,26 @@ internal class PhotoRepositoryImpl @Inject constructor(
     private val bookmarkedPhotoDao: BookmarkedPhotoDao,
 ) : PhotoRepository {
 
-    override suspend fun bookmarkToggle(bookmarkedPhoto: BookmarkedPhoto) {
-        if(bookmarkedPhotoDao.getBookmarkedPhoto(bookmarkedPhoto.id) != null){
+    override suspend fun bookmarkToggle(bookmarkedPhoto: Photo) {
+        if (bookmarkedPhotoDao.getBookmarkedPhoto(bookmarkedPhoto.id) != null) {
             bookmarkedPhotoDao.deleteById(bookmarkedPhoto.id)
-        }else{
+        } else {
             bookmarkedPhotoDao.insert(bookmarkedPhoto.toDto())
         }
     }
 
     override suspend fun getPhoto(id: String): Photo {
-        return photoApi.getPhoto(id).toModel()
+        val bookmarkedPhotos = bookmarkedPhotoDao.getBookmarkedPhotos().first()
+        return photoApi.getPhoto(id).toModel(
+            bookmarkedPhotos.find { it.id == id } != null
+        )
     }
 
     override suspend fun searchPhotos(query: String): Flow<PagingData<Photo>> {
         return Pager(
             config = PagingConfig(
                 pageSize = PhotoPagingSource.DEFAULT_PER_PAGE,
-                prefetchDistance = 12,
-
+                enablePlaceholders = false,
             ),
             pagingSourceFactory = {
                 PhotoPagingSource(
@@ -61,11 +62,9 @@ internal class PhotoRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getBookmarkPhotos(): Flow<List<BookmarkedPhoto>> {
+    override fun getBookmarkPhotos(): Flow<List<Photo>> {
         return bookmarkedPhotoDao.getBookmarkedPhotos().map { list ->
             list.map(BookmarkedPhotoEntity::toModel)
         }
     }
-
-
 }

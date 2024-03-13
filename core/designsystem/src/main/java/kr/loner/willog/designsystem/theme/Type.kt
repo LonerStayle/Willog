@@ -1,6 +1,7 @@
 package kr.loner.willog.designsystem.theme
 
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -20,17 +21,25 @@ internal val Typography = WillogTypography(
     ),
     body =  SansSerifStyle.copy(
         fontSize = 14.sp,
-        lineHeight = 20.sp
+        lineHeight = 20.sp,
+        color = Gray
+    ),
+    input = SansSerifStyle.copy(
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        color = Color.Black
     )
 )
 data class WillogTypography(
     val title:TextStyle,
-    val body:TextStyle
+    val body:TextStyle,
+    val input:TextStyle
 )
 
 val LocalTypography = staticCompositionLocalOf {
     WillogTypography(
         title = SansSerifStyle,
-        body = SansSerifStyle
+        body = SansSerifStyle,
+        input = SansSerifStyle
     )
 }

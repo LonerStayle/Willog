@@ -39,6 +39,6 @@ internal data class PhotoPagingSource @Inject constructor(
     }
 
     companion object {
-        const val DEFAULT_PER_PAGE = 40
+        const val DEFAULT_PER_PAGE = 10
     }
 }

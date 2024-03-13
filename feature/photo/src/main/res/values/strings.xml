@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="photo_search_title">검색</string>
+
+    <string name="photo_detail_title">상세</string>
+    <string name="photo_detail_id">아이디</string>
+    <string name="photo_detail_author">작성자</string>
+    <string name="photo_detail_size">크기</string>
+    <string name="photo_detail_create_at">등록일</string>
+
+    <string name="photo_bookmark_title">좋아요</string>
+    <string name="photo_bookmark_empty_text">좋아요 사진 목록이 비었습니다.</string>
+</resources>

@@ -29,6 +29,8 @@ internal object NetworkModule {
         "application/json".toMediaType()
     )
 
+
+
     @Singleton
     @Provides
     internal fun provideHttpLoggingInterceptor() = HttpLoggingInterceptor().apply {
@@ -71,6 +73,5 @@ internal object NetworkModule {
             .create(PhotoApi::class.java)
 
     }
-
 
 }

@@ -1,14 +1,22 @@
 package kr.loner.willog.data.mapper
 
+import kotlinx.datetime.LocalDateTime
 import kr.loner.willog.data.local.entity.BookmarkedPhotoEntity
-import kr.loner.willog.model.BookmarkedPhoto
+import kr.loner.willog.model.Photo
+import kr.loner.willog.model.User
+import java.time.OffsetDateTime
 
-internal fun BookmarkedPhotoEntity.toModel() = BookmarkedPhoto(
+internal fun BookmarkedPhotoEntity.toModel() = Photo(
     id = id,
-    thumb = thumb
+    urls = Photo.Urls(full = "",thumb = thumb),
+    user = User("",""),
+    width = 0,
+    height = 0,
+    createdAt = "",
+    isBookmark = true,
 )
 
-internal fun BookmarkedPhoto.toDto() = BookmarkedPhotoEntity(
+internal fun Photo.toDto() = BookmarkedPhotoEntity(
     id = id,
-    thumb = thumb
+    thumb = urls.thumb
 )
