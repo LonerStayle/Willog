@@ -1,12 +1,11 @@
 package kr.loner.feature.photo.search
 
-import androidx.compose.foundation.lazy.LazyListState
+import android.util.Log
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -30,10 +28,6 @@ class PhotoSearchViewModel @Inject constructor(
     private val searchPhotosUserCase: SearchPhotosUserCase,
     getBookmarkedPhotosUseCase: GetBookmarkedPhotosUseCase,
 ) : ViewModel() {
-
-    private val _scrollState = MutableStateFlow<LazyGridState?>(null)
-    val scrollState: StateFlow<LazyGridState?> = _scrollState
-
     private val _photoSearchUiEffect = MutableStateFlow<PhotoSearchEffect>(PhotoSearchEffect.Ide)
     val photoSearchUiEffect: StateFlow<PhotoSearchEffect> = _photoSearchUiEffect
 
@@ -41,11 +35,12 @@ class PhotoSearchViewModel @Inject constructor(
     private val _cacheValues = MutableStateFlow(PhotoSearchCacheValues())
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val searchPhotos: StateFlow<PagingData<Photo>> = _queryFlow
+    val searchPhotos: Flow<PagingData<Photo>> = _queryFlow
         .filter(String::isNotEmpty)
         .flatMapLatest { query ->
             val cacheValue = _cacheValues.value
             val searchPhotos = searchPhotosUserCase(query).cachedIn(viewModelScope)
+
             if (cacheValue.prevQuery == query) {
                 _cacheValues.update { it.copy(prevQuery = query) }
                 cacheValue.cacheSearchPhotos ?: emptyFlow()
@@ -56,7 +51,7 @@ class PhotoSearchViewModel @Inject constructor(
                         cacheSearchPhotos = searchPhotos
                     )
                 }
-                searchPhotos
+                searchPhotosUserCase(query).cachedIn(viewModelScope)
             }
         }.stateIn(
             viewModelScope,
@@ -85,9 +80,6 @@ class PhotoSearchViewModel @Inject constructor(
         }
     }
 
-    fun saveScrollState(scrollState: LazyGridState) {
-        _scrollState.value = scrollState
-    }
     data class PhotoSearchCacheValues(
         val prevQuery: String? = null,
         val cacheSearchPhotos: Flow<PagingData<Photo>>? = null,

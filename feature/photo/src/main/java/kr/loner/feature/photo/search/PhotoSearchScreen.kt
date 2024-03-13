@@ -1,5 +1,6 @@
 package kr.loner.feature.photo.search
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -79,16 +80,12 @@ internal fun PhotoSearchRoute(
         }
     }
 
-    LaunchedEffect(scrollState) {
-        viewModel.saveScrollState(scrollState)
-    }
-
     /* Xml 페이징3 구현용 코드 (2) */
     LaunchedEffect(Unit) {
         lifecycleOwner.lifecycleScope.launch {
             lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.searchPhotos.collect { photos ->
-
+                    Log.d("checkk오니??",photos.toString())
                     searchAdapter.submitData(photos)
                 }
             }
