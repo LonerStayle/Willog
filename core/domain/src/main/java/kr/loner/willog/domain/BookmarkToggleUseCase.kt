@@ -7,7 +7,7 @@ import javax.inject.Inject
 class BookmarkToggleUseCase @Inject constructor(
     private val photoRepository: PhotoRepository
 ) {
-    suspend operator fun invoke(bookmarkedPhoto: Photo)  {
+    suspend operator fun invoke(bookmarkedPhoto: Photo) {
         photoRepository.bookmarkToggle(bookmarkedPhoto)
     }
 }

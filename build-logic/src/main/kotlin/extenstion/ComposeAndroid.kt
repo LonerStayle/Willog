@@ -3,7 +3,7 @@ package extenstion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
-internal fun Project.configureComposeAndroid(){
+internal fun Project.configureComposeAndroid() {
     val libs = extensions.libs
 
     androidExtension.apply {

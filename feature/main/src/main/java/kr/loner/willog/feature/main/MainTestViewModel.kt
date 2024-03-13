@@ -15,8 +15,6 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import kr.loner.willog.domain.BookmarkToggleUseCase
 import kr.loner.willog.domain.GetBookmarkedPhotosUseCase
 import kr.loner.willog.domain.SearchPhotosUserCase
 import kr.loner.willog.model.Photo

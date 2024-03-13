@@ -10,7 +10,7 @@ import kr.loner.willog.data.local.entity.BookmarkedPhotoEntity
 @Dao
 internal interface BookmarkedPhotoDao {
     @Query("SELECT * FROM BookmarkedPhotoEntity WHERE id = :id")
-    suspend fun getBookmarkedPhoto(id:String): BookmarkedPhotoEntity?
+    suspend fun getBookmarkedPhoto(id: String): BookmarkedPhotoEntity?
 
     @Query("SELECT * from BookmarkedPhotoEntity")
     fun getBookmarkedPhotos(): Flow<List<BookmarkedPhotoEntity>>

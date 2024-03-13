@@ -57,10 +57,12 @@ class PhotoSearchViewModel @Inject constructor(
 
 
     fun setQuery(query: String) {
-        Log.d("checkk","aaaa")
+        Log.d("checkk", "aaaa")
         _queryFlow.value = query
     }
+
     val bookmarkedPhotos = getBookmarkedPhotosUseCase()
+
     data class PhotoSearchCacheValues(
         val prevQuery: String? = null,
         val cacheSearchPhotos: Flow<PagingData<Photo>>? = null,

@@ -99,9 +99,11 @@ private fun PhotoDetailBookmarkButton(
     onBookmarkClick: () -> Unit,
     state: PhotoDetailUiState.Success
 ) {
-    Box(modifier = Modifier
-        .fillMaxWidth()
-        .padding(8.dp)) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
         FloatingActionButton(
             onClick = {
                 onBookmarkClick()

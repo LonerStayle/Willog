@@ -1,7 +1,6 @@
 package kr.loner.willog.data.repository
 
 import androidx.paging.Pager
-
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
@@ -14,7 +13,6 @@ import kr.loner.willog.data.mapper.toDto
 import kr.loner.willog.data.mapper.toModel
 import kr.loner.willog.data.paging.PhotoPagingSource
 import kr.loner.willog.data.remote.api.PhotoApi
-import kr.loner.willog.data.remote.model.PhotoResponse
 import kr.loner.willog.model.Photo
 import javax.inject.Inject
 

@@ -30,7 +30,6 @@ internal object NetworkModule {
     )
 
 
-
     @Singleton
     @Provides
     internal fun provideHttpLoggingInterceptor() = HttpLoggingInterceptor().apply {

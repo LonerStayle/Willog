@@ -19,7 +19,7 @@ internal val Typography = WillogTypography(
         lineHeight = 26.sp,
         fontWeight = FontWeight.Bold
     ),
-    body =  SansSerifStyle.copy(
+    body = SansSerifStyle.copy(
         fontSize = 14.sp,
         lineHeight = 20.sp,
         color = Gray
@@ -30,10 +30,11 @@ internal val Typography = WillogTypography(
         color = Color.Black
     )
 )
+
 data class WillogTypography(
-    val title:TextStyle,
-    val body:TextStyle,
-    val input:TextStyle
+    val title: TextStyle,
+    val body: TextStyle,
+    val input: TextStyle
 )
 
 val LocalTypography = staticCompositionLocalOf {

@@ -11,8 +11,8 @@ android {
         versionName = "1.0"
     }
 
-    buildTypes{
-        getByName("release"){
+    buildTypes {
+        getByName("release") {
             signingConfig = signingConfigs.getByName("debug")
         }
     }

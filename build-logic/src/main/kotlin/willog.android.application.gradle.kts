@@ -1,7 +1,7 @@
 import extenstion.configureHiltAndroid
 import extenstion.configureKotlinAndroid
 
-plugins{
+plugins {
     id("com.android.application")
 }
 

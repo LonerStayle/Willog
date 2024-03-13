@@ -2,6 +2,6 @@ plugins {
     id("willog.kotlin.library")
 }
 
-dependencies{
+dependencies {
     api(libs.kotlinx.datetime)
 }

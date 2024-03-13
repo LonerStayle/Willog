@@ -28,7 +28,7 @@ internal fun Project.configureKotlinAndroid() {
                 )
             }
         }
-        buildFeatures{
+        buildFeatures {
             buildConfig = true
         }
     }

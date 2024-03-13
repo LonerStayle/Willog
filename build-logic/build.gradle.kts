@@ -9,15 +9,15 @@ dependencies {
     implementation(libs.android.gradlePlugin)
 }
 
-gradlePlugin{
+gradlePlugin {
     plugins {
-        register("hilt-android"){
+        register("hilt-android") {
             id = "willog.hilt.android"
             implementationClass = "extenstion.HiltAndroidPlugin"
         }
     }
     plugins {
-        register("hilt-kotlin"){
+        register("hilt-kotlin") {
             id = "willog.hilt.kotlin"
             implementationClass = "extenstion.HiltKotlinPlugin"
         }

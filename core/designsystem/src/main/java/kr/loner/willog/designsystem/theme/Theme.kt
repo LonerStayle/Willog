@@ -38,8 +38,8 @@ fun WillogTheme(
     }
 }
 
-object WillogTheme{
-    val typography:WillogTypography
+object WillogTheme {
+    val typography: WillogTypography
         @Composable
         get() = LocalTypography.current
 }

@@ -3,7 +3,7 @@ import extenstion.configureHiltAndroid
 import extenstion.configureKotlinAndroid
 import extenstion.configurePaging3
 
-plugins{
+plugins {
     id("com.android.library")
 }
 

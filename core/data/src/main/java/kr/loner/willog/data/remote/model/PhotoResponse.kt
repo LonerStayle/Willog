@@ -11,9 +11,9 @@ internal data class PhotoResponse(
     @SerialName("urls")
     val urls: UrlsResponse,
     @SerialName("width")
-    val width:Int,
+    val width: Int,
     @SerialName("height")
-    val height:Int,
+    val height: Int,
 
 
     @SerialName("created_at")

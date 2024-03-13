@@ -2,7 +2,7 @@ plugins {
     id("willog.android.library")
 }
 
-android{
+android {
     namespace = "kr.loner.willog.domain"
 }
 

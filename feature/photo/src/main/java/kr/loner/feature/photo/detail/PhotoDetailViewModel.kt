@@ -1,6 +1,5 @@
 package kr.loner.feature.photo.detail
 
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +27,7 @@ class PhotoDetailViewModel @Inject constructor(
         }
     }
 
-    fun bookmarkToggle(){
+    fun bookmarkToggle() {
         viewModelScope.launch {
             val photo = (photoDetailUiState.value as PhotoDetailUiState.Success).photo
             bookmarkToggleUseCase(photo)

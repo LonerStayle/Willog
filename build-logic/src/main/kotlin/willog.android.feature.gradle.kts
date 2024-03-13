@@ -6,15 +6,15 @@ plugins {
     id("willog.android.compose")
 }
 
-android{
-    defaultConfig{
+android {
+    defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 
 configureHiltAndroid()
 
-dependencies{
+dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:data"))
     implementation(project(":core:domain"))

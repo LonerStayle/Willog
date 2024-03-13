@@ -20,9 +20,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
-import kotlinx.coroutines.flow.Flow
 import kr.loner.feature.photo.R
 import kr.loner.willog.designsystem.component.NetworkImage
 import kr.loner.willog.model.Photo
@@ -44,9 +42,9 @@ fun PhotoList(
     ) {
 
 
-        items(photos.itemCount) {  index->
+        items(photos.itemCount) { index ->
             PhotoItem(
-                photos[index]?:return@items,
+                photos[index] ?: return@items,
                 onPhotoClick
             )
         }

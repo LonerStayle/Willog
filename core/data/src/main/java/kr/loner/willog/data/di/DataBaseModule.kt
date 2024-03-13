@@ -2,7 +2,6 @@ package kr.loner.willog.data.di
 
 import android.content.Context
 import androidx.room.Room
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,9 +18,9 @@ internal class DataBaseModule {
     @Provides
     fun provideWillogDataBase(@ApplicationContext context: Context): WillogDataBase =
         Room
-        .databaseBuilder(context, WillogDataBase::class.java, "willog_dataBase")
-        .fallbackToDestructiveMigration()
-        .build()
+            .databaseBuilder(context, WillogDataBase::class.java, "willog_dataBase")
+            .fallbackToDestructiveMigration()
+            .build()
 
     @Singleton
     @Provides

@@ -13,18 +13,21 @@ import kr.loner.feature.photo.navigatePhotoSearch
 internal fun rememberMainNavigator(
     navController: NavHostController = rememberNavController(),
 ) = remember(navController) { MainNavigator(navController) }
+
 internal class MainNavigator(
     val navController: NavHostController
 ) {
-     val startRoute = PhotoRoute.Search.route
+    val startRoute = PhotoRoute.Search.route
 
-    fun navigatePhotoSearch(){
+    fun navigatePhotoSearch() {
         navController.navigatePhotoSearch()
     }
-    fun navigatePhotoDetail(photoId:String){
+
+    fun navigatePhotoDetail(photoId: String) {
         navController.navigatePhotoDetail(photoId)
     }
-    fun navigatePhotoBookmark(){
+
+    fun navigatePhotoBookmark() {
         navController.navigatePhotoBookmark()
     }
 }

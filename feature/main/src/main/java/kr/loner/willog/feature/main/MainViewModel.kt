@@ -7,11 +7,11 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor():ViewModel() {
+class MainViewModel @Inject constructor() : ViewModel() {
     private val _appBarText = MutableStateFlow("")
-    val appBarText:StateFlow<String> get() = _appBarText
+    val appBarText: StateFlow<String> get() = _appBarText
 
-    fun updateAppBarText(text:String){
+    fun updateAppBarText(text: String) {
         _appBarText.value = text
     }
 }
